@@ -1,4 +1,3 @@
-<<<<<<< SEARCH
 ## Getting Started
 
 ### Installation
