@@ -1,4 +1,3 @@
-<<<<<<< SEARCH
 ## Development Setup
 
 1. Clone the repository
@@ -7,8 +6,6 @@
 4. Use browser dev tools for debugging
 5. Test with empty localStorage for fresh state
 
-## Project Structure
-=======
 ## Reporting Bugs Safely
 
 When reporting bugs, **protect your privacy**:
@@ -25,5 +22,3 @@ When reporting bugs, **protect your privacy**:
 - Upload your actual exported CSV files
 - Include specific favor details in bug reports
 - Share information about real people or situations
-
-### Bug Report Template
