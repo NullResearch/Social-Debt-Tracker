@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<!-- 
+  Social Debt Tracker by Null Research R&D
+  Licensed under MIT License - see LICENSE file
+  Copyright (c) 2024 Null Research R&D
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self'; img-src 'self' data:;">
+  <title>Social Debt Tracker by Null Research R&D</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loadingScreen" class="loading-screen">
+    <div class="loading-content">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Social Debt Tracker</div>
+      <div class="loading-subtext">by Null Research R&D</div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <div id="app">
+    <!-- Dashboard View -->
+    <div id="dashboardView" class="view active">
+      <div class="dashboard-header">
+        <div id="userInfo" class="user-info"></div>
+        <div class="header-actions">
+          <button id="aboutBtn" class="icon-btn" data-tooltip="About">ℹ️</button>
+          <button id="profileBtn" class="icon-btn" data-tooltip="Edit Profile">👤</button>
+          <button id="themeToggle" class="icon-btn" data-tooltip="Toggle Theme">🌓</button>
+        </div>
+      </div>
+
+      <div class="balance-card">
+        <div class="balance-label">Total Balance</div>
+        <div id="totalBalance" class="balance-value">0</div>
+        <div class="balance-subtitle">Net favor value</div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div id="totalOwed" class="stat-value">0</div>
+          <div class="stat-label">They Owe</div>
+        </div>
+        <div class="stat-item">
+          <div id="totalOwe" class="stat-value">0</div>
+          <div class="stat-label">You Owe</div>
+        </div>
+        <div class="stat-item">
+          <div id="activeFavors" class="stat-value">0</div>
+          <div class="stat-label">Active</div>
+        </div>
+        <div class="stat-item">
+          <div id="completedFavors" class="stat-value">0</div>
+          <div class="stat-label">Completed</div>
+        </div>
+      </div>
+
+      <div class="action-toolbar">
+        <button id="addBtn" class="toolbar-btn primary" data-tooltip="Add New Favor">+ Add Favor</button>
+        <button id="leaderboardBtn" class="toolbar-btn" data-tooltip="View Leaderboard">🏆 Leaderboard</button>
+        <button id="exportBtn" class="toolbar-btn" data-tooltip="Export Data">📥 Export</button>
+        <button id="importBtn" class="toolbar-btn" data-tooltip="Import Data">📤 Import</button>
+      </div>
+
+      <div class="filters-section">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search favors...">
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-status="all">All</button>
+          <button class="filter-tab" data-status="pending">Pending</button>
+          <button class="filter-tab" data-status="completed">Completed</button>
+        </div>
+        <select id="personFilter" class="person-filter">
+          <option value="">All People</option>
+        </select>
+      </div>
+
+      <div class="section-header">
+        <h3>People</h3>
+      </div>
+
+      <div id="peopleList" class="people-list"></div>
+
+      <div id="emptyState" class="empty-state" style="display: none;">
+        <div class="empty-icon">🤝</div>
+        <p>No favors yet. Click "+ Add Favor" to start tracking.</p>
+      </div>
+    </div>
+
+    <!-- Detail View -->
+    <div id="detailView" class="view">
+      <div class="header">
+        <button id="backBtn" class="back-btn" data-tooltip="Back to Dashboard">←</button>
+        <h2 id="personName"></h2>
+      </div>
+
+      <div id="favorsList" class="favors-list"></div>
+
+      <div id="paginationControls" class="pagination-controls">
+        <button id="prevPageBtn" class="pagination-btn">← Previous</button>
+        <span id="pageInfo" class="page-info"></span>
+        <button id="nextPageBtn" class="pagination-btn">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Modal -->
+  <div id="profileModal" class="modal">
+    <div class="modal-content">
+      <h3>Edit Profile</h3>
+      <div class="avatar-upload-section">
+        <div id="avatarPreview" class="avatar-preview">
+          <div class="avatar-initials">?</div>
+        </div>
+        <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+        <button id="uploadAvatarBtn" type="button">Upload Avatar</button>
+        <button id="removeAvatarBtn" type="button" style="display: none; margin-top: 8px;">Remove Avatar</button>
+      </div>
+      <input type="text" id="nameInput" placeholder="Name *" required>
+      <input type="text" id="roleInput" placeholder="Role (optional)">
+      <input type="text" id="departmentInput" placeholder="Department (optional)">
+      <div class="modal-actions">
+        <button id="cancelProfileBtn" class="btn-secondary">Cancel</button>
+        <button id="saveProfileBtn" class="btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Favor Modal -->
+  <div id="addModal" class="modal">
+    <div class="modal-content">
+      <h3>Add Favor</h3>
+      <input type="text" id="titleInput" placeholder="Title *" required>
+      <input type="text" id="personInput" placeholder="Person *" required>
+      <textarea id="descriptionInput" placeholder="Description (optional)" rows="3"></textarea>
+      <div class="radio-group">
+        <label>
+          <input type="radio" name="direction" value="owe" checked>
+          I owe them
+        </label>
+        <label>
+          <input type="radio" name="direction" value="owed">
+          They owe me
+        </label>
+      </div>
+      <input type="number" id="valueInput" placeholder="Value (optional)">
+      <input type="date" id="dueDateInput" placeholder="Due Date (optional)">
+      <input type="text" id="tagsInput" placeholder="Tags (comma-separated, optional)">
+      <div class="modal-actions">
+        <button id="cancelBtn" class="btn-secondary">Cancel</button>
+        <button id="saveBtn" class="btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaderboard Modal -->
+  <div id="leaderboardModal" class="modal">
+    <div class="modal-content">
+      <h3>Leaderboard</h3>
+      <div id="leaderboardList" class="leaderboard-list"></div>
+      <div class="modal-actions">
+        <button id="closeLeaderboardBtn" class="btn-primary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comment Modal -->
+  <div id="commentModal" class="modal">
+    <div class="modal-content">
+      <h3>Add Comment</h3>
+      <textarea id="commentInput" placeholder="Enter your comment..." rows="4"></textarea>
+      <div class="modal-actions">
+        <button id="cancelCommentBtn" class="btn-secondary">Cancel</button>
+        <button id="saveCommentBtn" class="btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import Modal -->
+  <div id="importModal" class="modal">
+    <div class="modal-content">
+      <h3>Import Data</h3>
+      <div class="import-drop-zone" id="importDropZone">
+        <div class="import-icon">📤</div>
+        <div class="import-text">Drag and drop CSV file here</div>
+        <div class="import-subtext">or</div>
+        <button id="selectFileBtn" class="btn-primary" type="button">Select File</button>
+        <input type="file" id="importFileInput" accept=".csv" style="display: none;">
+      </div>
+      <div class="modal-actions">
+        <button id="cancelImportBtn" class="btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div id="deleteModal" class="modal">
+    <div class="modal-content">
+      <h3>Delete Favor</h3>
+      <p style="margin-bottom: 20px;">Are you sure you want to delete this favor? This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button id="cancelDeleteBtn" class="btn-secondary">Cancel</button>
+        <button id="confirmDeleteBtn" class="btn-primary" style="background: var(--negative);">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Context Menu -->
+  <div id="contextMenu" class="context-menu">
+    <div class="context-menu-item" data-action="add">➕ Add Favor</div>
+    <div class="context-menu-item" data-action="leaderboard">🏆 Leaderboard</div>
+    <div class="context-menu-item" data-action="export">📥 Export Data</div>
+    <div class="context-menu-item" data-action="import">📤 Import Data</div>
+    <div class="context-menu-divider"></div>
+    <div class="context-menu-item" data-action="theme">🌓 Toggle Theme</div>
+    <div class="context-menu-item" data-action="profile">👤 Edit Profile</div>
+    <div class="context-menu-item" data-action="settings">⚙️ Settings</div>
+    <div class="context-menu-divider"></div>
+    <div class="context-menu-item" data-action="about">ℹ️ About</div>
+  </div>
+
+  <!-- About Modal -->
+  <div id="aboutModal" class="modal">
+    <div class="modal-content about-modal">
+      <h3>About Social Debt Tracker</h3>
+      <div class="about-content">
+        <section>
+          <h4>Purpose</h4>
+          <p>Social Debt Tracker is a comprehensive favor management system designed to help you maintain balanced interpersonal relationships. Whether in professional settings or personal life, this tool allows you to track reciprocal obligations, rate interactions, and maintain detailed records of your social exchanges.</p>
+          <p>The platform promotes fairness and transparency in social interactions by providing quantifiable metrics for favor tracking and relationship balance.</p>
+        </section>
+
+        <section>
+          <h4>Core Features</h4>
+          <ul>
+            <li><strong>Bidirectional Tracking:</strong> Track favors you owe and favors owed to you</li>
+            <li><strong>Person-Centric View:</strong> Organize favors by individual with automatic balance calculations</li>
+            <li><strong>Rating System:</strong> 5-star rating for completed favors to track satisfaction</li>
+            <li><strong>Comments & Notes:</strong> Add detailed comments to any favor for context</li>
+            <li><strong>Advanced Filtering:</strong> Search, filter by person, and sort by status</li>
+            <li><strong>Data Portability:</strong> Export and import data via CSV format</li>
+            <li><strong>Customizable Themes:</strong> Dark and light mode support for comfortable viewing</li>
+            <li><strong>Smart Reminders:</strong> Due date tracking with notification support</li>
+            <li><strong>Leaderboard:</strong> View most active relationships and favor statistics</li>
+            <li><strong>Custom Context Menu:</strong> Right-click access to all major features</li>
+            <li><strong>Responsive Design:</strong> Works seamlessly on mobile, tablet, and desktop</li>
+            <li><strong>Error Logging:</strong> Automatic error tracking with viewing and export capabilities</li>
+            <li><strong>Data Management:</strong> Clear all data or specific sections with confirmation</li>
+          </ul>
+        </section>
+
+        <section>
+          <h4>How to Use</h4>
+          <ul>
+            <li><strong>Add Favors:</strong> Click "+ Add Favor" or right-click anywhere for quick access</li>
+            <li><strong>Track Balance:</strong> See at-a-glance who owes whom on the dashboard</li>
+            <li><strong>Mark Complete:</strong> Update favor status when obligations are fulfilled</li>
+            <li><strong>Rate & Comment:</strong> Provide feedback on completed favors</li>
+            <li><strong>Filter & Search:</strong> Find specific favors quickly using the filter bar</li>
+            <li><strong>Export Data:</strong> Backup your data regularly via CSV export</li>
+            <li><strong>View Settings:</strong> Access data management and error logs via context menu</li>
+          </ul>
+        </section>
+
+        <section>
+          <h4>Error Logging</h4>
+          <p>The application automatically logs errors to help diagnose issues. Error logs are stored locally and include timestamps, error messages, and context. You can view, export, or clear error logs from the Settings panel.</p>
+          <p><strong>Privacy:</strong> Error logs never leave your device and contain no personal information beyond what you've entered into the application.</p>
+        </section>
+
+        <section>
+          <h4>Privacy & Data</h4>
+          <p><strong>All data is stored locally in your browser.</strong> We do not collect, transmit, or store any personal information on external servers. Your favor data never leaves your device.</p>
+          <p><strong>No authentication required.</strong> Anyone with access to this browser can view and modify the data. Do not store sensitive or confidential information.</p>
+        </section>
+
+        <section>
+          <h4>Security Notice</h4>
+          <p>This application implements input sanitation and XSS protection, but it is designed for personal use only. Data is not encrypted and has no access controls. Use responsibly.</p>
+        </section>
+
+        <section>
+          <h4>Browser Compatibility</h4>
+          <p>Works best in modern browsers: Chrome 90+, Firefox 88+, Safari 14+, Edge 90+</p>
+        </section>
+
+        <section>
+          <h4>Disclaimer</h4>
+          <p><strong>For educational and demonstration purposes only.</strong> This tool is not intended for tracking real confidential company data or sensitive workplace information. The developers are not responsible for any data loss, misuse, or workplace consequences resulting from use of this application.</p>
+        </section>
+
+        <section>
+          <h4>License & Attribution</h4>
+          <p>Licensed under the MIT License. Copyright © 2026 Null Research R&D.</p>
+          <p>Uses Noto Sans font from Google Fonts.</p>
+        </section>
+
+        <section>
+          <h4>Version</h4>
+          <p>v1.1.0 (2026)</p>
+        </section>
+      </div>
+      <div class="modal-actions">
+        <button id="closeAboutBtn" class="btn-primary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal">
+    <div class="modal-content">
+      <h3>Settings</h3>
+      <div class="settings-section">
+        <h4>Data Management</h4>
+        <button id="clearAllDataBtn" class="settings-btn danger">Clear All Data</button>
+        <button id="clearFavorsBtn" class="settings-btn">Clear Favors Only</button>
+        <button id="clearProfileBtn" class="settings-btn">Clear Profile Only</button>
+      </div>
+      <div class="settings-section">
+        <h4>Error Logs</h4>
+        <div class="error-stats">
+          <span id="errorStatsText">Loading...</span>
+        </div>
+        <div class="settings-actions">
+          <button id="viewErrorsBtn" class="settings-btn">View Logs</button>
+          <button id="exportErrorsBtn" class="settings-btn">Export Logs</button>
+          <button id="clearErrorsBtn" class="settings-btn">Clear Logs</button>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button id="closeSettingsBtn" class="btn-primary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error Logs Modal -->
+  <div id="errorLogsModal" class="modal">
+    <div class="modal-content about-modal">
+      <h3>Error Logs</h3>
+      <div id="errorLogsList" class="error-logs-list"></div>
+      <div class="modal-actions">
+        <button id="closeErrorLogsBtn" class="btn-primary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm Clear Data Modal -->
+  <div id="confirmClearModal" class="modal">
+    <div class="modal-content">
+      <h3>Confirm Action</h3>
+      <p id="confirmClearMessage" style="margin-bottom: 20px;"></p>
+      <div class="modal-actions">
+        <button id="cancelClearBtn" class="btn-secondary">Cancel</button>
+        <button id="confirmClearBtn" class="btn-primary" style="background: var(--negative);">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

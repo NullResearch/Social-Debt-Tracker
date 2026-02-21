@@ -1,0 +1,59 @@
+/* Responsive design for larger screens */
+@media (min-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .modal-content {
+    max-width: 500px;
+  }
+
+  .people-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .balance-card {
+    margin: 24px auto;
+    max-width: 500px;
+  }
+
+  .filters-section {
+    padding: 24px;
+    padding-top: 12px;
+  }
+
+  .section-header {
+    padding: 24px;
+    padding-bottom: 12px;
+  }
+}
+
+@media (min-width: 1024px) {
+  #app {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .people-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .dashboard-header,
+  .header {
+    padding: 24px;
+  }
+
+  .stats-grid {
+    padding: 0 24px 24px;
+    gap: 12px;
+  }
+
+  .action-toolbar {
+    padding: 0 24px 24px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+}

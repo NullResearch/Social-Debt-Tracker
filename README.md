@@ -1,2 +1,20 @@
-# Social Debt Tracker
-Track and manage workplace favors with a simple, browser-based app. Add points, due dates, and categories, see dashboards and leaderboards, filter and search easily, and switch between dark and light modes. All data stays local, no server or login required.
+<<<<<<< SEARCH
+## Getting Started
+
+### Installation
+
+No installation required! This is a pure client-side application.
+
+1. **Download or Clone**: Download the project files or clone the repository
+   ```bash
+   git clone https://github.com/your-username/social-debt-tracker.git
+=======
+## Getting Started
+
+### Installation
+
+No installation required! This is a pure client-side application.
+
+1. **Download or Clone**: Download the project files or clone the repository
+   ```bash
+   git clone https://github.com/your-username/social-debt-tracker.git
