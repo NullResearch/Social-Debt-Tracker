@@ -1,37 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      margin: 0;
-      padding: 2rem;
-      line-height: 1.5;
-      background-color:#c7c7c7;
-      color: rgb(150, 150, 150); 
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-      min-height: 80vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    h1 {
-      margin-bottom: 1rem;
-    }
-    p {
-      margin-bottom: 1rem;
-    }
-  </style>
-</head>
-<body>
-  
-      <h1>Asset not found</h1>
-      <p>The asset <strong>'CONTRIBUTING.md'</strong> cannot be found, or you don't have permission to view it.</p>
-    
-</body>
-</html>
+<<<<<<< SEARCH
+## Development Setup
+
+1. Clone the repository
+2. Open `index.html` in a modern browser
+3. No build process required - vanilla HTML/CSS/JS
+4. Use browser dev tools for debugging
+5. Test with empty localStorage for fresh state
+
+## Project Structure
+=======
+## Reporting Bugs Safely
+
+When reporting bugs, **protect your privacy**:
+
+### DO:
+- Clear localStorage before reproducing bugs (Settings → Privacy → Clear browsing data)
+- Use fake/example data when providing screenshots
+- Describe the bug in general terms
+- Include browser version, OS, and steps to reproduce
+- Check if the bug occurs with empty data
+
+### DON'T:
+- Share screenshots with real names or personal information
+- Upload your actual exported CSV files
+- Include specific favor details in bug reports
+- Share information about real people or situations
+
+### Bug Report Template

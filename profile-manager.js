@@ -1,37 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      margin: 0;
-      padding: 2rem;
-      line-height: 1.5;
-      background-color:#c7c7c7;
-      color: rgb(150, 150, 150); 
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-      min-height: 80vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+/**
+ * Social Debt Tracker - Profile Manager
+ * Licensed under MIT License - see LICENSE file
+ * Copyright (c) 2024 Null Research R&D
+ */
+
+import { Storage } from './storage.js';
+import { UIRenderer } from './ui-renderer.js';
+import { ErrorLogger } from './error-logger.js';
+
+export class ProfileManager {
+  constructor(toastContainer) {
+    this.toastContainer = toastContainer;
+    this.profile = Storage.loadProfile();
+    this.avatarUrl = Storage.loadAvatarImage();
+  }
+
+  getProfile() {
+    return this.profile;
+  }
+
+  getAvatarUrl() {
+    return this.avatarUrl;
+  }
+
+  hasProfile() {
+    return this.profile !== null;
+  }
+
+  saveProfile(profileData, avatarData) {
+    try {
+      if (!profileData.name) {
+        throw new Error('Name is required');
+      }
+
+      this.profile = profileData;
+      Storage.saveProfile(this.profile);
+      
+      if (avatarData) {
+        if (avatarData.length > 5 * 1024 * 1024) {
+          throw new Error('Avatar image too large (max 5MB)');
+        }
+        Storage.saveAvatarImage(avatarData);
+        this.avatarUrl = avatarData;
+      } else if (avatarData === null) {
+        Storage.removeAvatarImage();
+        this.avatarUrl = null;
+      }
+      
+      UIRenderer.showToast('Profile saved', 'success', this.toastContainer);
+      return true;
+    } catch (error) {
+      ErrorLogger.log(error, 'Profile - Save');
+      UIRenderer.showToast(error.message, 'info', this.toastContainer);
+      return false;
     }
-    h1 {
-      margin-bottom: 1rem;
-    }
-    p {
-      margin-bottom: 1rem;
-    }
-  </style>
-</head>
-<body>
-  
-      <h1>Asset not found</h1>
-      <p>The asset <strong>'profile-manager.js'</strong> cannot be found, or you don't have permission to view it.</p>
-    
-</body>
-</html>
+  }
+
+  clearProfile() {
+    this.profile = null;
+    this.avatarUrl = null;
+  }
+
+  renderUserInfo(container) {
+    UIRenderer.renderUserInfo(this.profile, container, this.avatarUrl);
+  }
+}

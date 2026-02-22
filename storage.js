@@ -1,37 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      margin: 0;
-      padding: 2rem;
-      line-height: 1.5;
-      background-color:#c7c7c7;
-      color: rgb(150, 150, 150); 
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-      min-height: 80vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    h1 {
-      margin-bottom: 1rem;
-    }
-    p {
-      margin-bottom: 1rem;
-    }
-  </style>
-</head>
-<body>
-  
-      <h1>Asset not found</h1>
-      <p>The asset <strong>'storage.js'</strong> cannot be found, or you don't have permission to view it.</p>
-    
-</body>
-</html>
+/**
+ * Social Debt Tracker - Storage Manager
+ * Licensed under MIT License - see LICENSE file
+ * Copyright (c) 2024 Null Research R&D
+ */
+
+export class Storage {
+  static loadFavors() {
+    const saved = localStorage.getItem('favorTracker');
+    return saved ? JSON.parse(saved) : [];
+  }
+
+  static saveFavors(favors) {
+    localStorage.setItem('favorTracker', JSON.stringify(favors));
+  }
+
+  static loadProfile() {
+    const saved = localStorage.getItem('userProfile');
+    return saved ? JSON.parse(saved) : null;
+  }
+
+  static saveProfile(profile) {
+    localStorage.setItem('userProfile', JSON.stringify(profile));
+  }
+
+  static saveAvatarImage(dataUrl) {
+    localStorage.setItem('userAvatar', dataUrl);
+  }
+
+  static loadAvatarImage() {
+    return localStorage.getItem('userAvatar');
+  }
+
+  static removeAvatarImage() {
+    localStorage.removeItem('userAvatar');
+  }
+}

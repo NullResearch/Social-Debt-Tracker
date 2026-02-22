@@ -1,37 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      margin: 0;
-      padding: 2rem;
-      line-height: 1.5;
-      background-color:#c7c7c7;
-      color: rgb(150, 150, 150); 
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-      min-height: 80vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    h1 {
-      margin-bottom: 1rem;
-    }
-    p {
-      margin-bottom: 1rem;
-    }
-  </style>
-</head>
-<body>
-  
-      <h1>Asset not found</h1>
-      <p>The asset <strong>'dashboard-manager.js'</strong> cannot be found, or you don't have permission to view it.</p>
+/**
+ * Social Debt Tracker - Dashboard Manager
+ * Licensed under MIT License - see LICENSE file
+ * Copyright (c) 2024 Null Research R&D
+ */
+
+import { UIRenderer } from './ui-renderer.js';
+
+export class DashboardManager {
+  constructor(elements, filterManager, viewManager) {
+    this.elements = elements;
+    this.filterManager = filterManager;
+    this.viewManager = viewManager;
+  }
+
+  render(favors) {
+    const filters = this.filterManager.getFilters();
     
-</body>
-</html>
+    UIRenderer.updateDashboard(favors, this.elements.dashboard);
+    UIRenderer.renderPersonFilter(favors, this.elements.personFilter, filters.person);
+    
+    const people = this.filterManager.getPeople(favors);
+    UIRenderer.renderPeopleList(people, this.elements.peopleList, this.elements.emptyState);
+
+    this.attachPersonCardListeners();
+  }
+
+  attachPersonCardListeners() {
+    this.elements.peopleList.querySelectorAll('.person-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        const person = e.currentTarget.dataset.person;
+        this.viewManager.showPersonDetail(person);
+      });
+    });
+  }
+}

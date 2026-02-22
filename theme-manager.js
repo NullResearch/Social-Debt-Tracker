@@ -1,37 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      margin: 0;
-      padding: 2rem;
-      line-height: 1.5;
-      background-color:#c7c7c7;
-      color: rgb(150, 150, 150); 
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-      min-height: 80vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+import { UIRenderer } from './ui-renderer.js';
+
+export class ThemeManager {
+  constructor(toastContainer) {
+    this.toastContainer = toastContainer;
+    this.loadTheme();
+  }
+
+  loadTheme() {
+    const theme = localStorage.getItem('theme') || 'light';
+    if (theme === 'dark') {
+      document.body.classList.add('dark-mode');
     }
-    h1 {
-      margin-bottom: 1rem;
-    }
-    p {
-      margin-bottom: 1rem;
-    }
-  </style>
-</head>
-<body>
-  
-      <h1>Asset not found</h1>
-      <p>The asset <strong>'theme-manager.js'</strong> cannot be found, or you don't have permission to view it.</p>
-    
-</body>
-</html>
+  }
+
+  toggleTheme() {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    UIRenderer.showToast(
+      `${isDark ? 'Dark' : 'Light'} mode enabled`,
+      'info',
+      this.toastContainer
+    );
+  }
+}
