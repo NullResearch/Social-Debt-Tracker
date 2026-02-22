@@ -1,4 +1,3 @@
-<<<<<<< SEARCH
 ## Development Setup
 
 1. Clone the repository
@@ -25,5 +24,3 @@ When reporting bugs, **protect your privacy**:
 - Upload your actual exported CSV files
 - Include specific favor details in bug reports
 - Share information about real people or situations
-
-### Bug Report Template
