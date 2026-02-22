@@ -34,7 +34,6 @@
       <div class="dashboard-header">
         <div id="userInfo" class="user-info"></div>
         <div class="header-actions">
-          <button id="helpBtn" class="icon-btn" data-tooltip="Keyboard Shortcuts">⌨️</button>
           <button id="aboutBtn" class="icon-btn" data-tooltip="About">ℹ️</button>
           <button id="profileBtn" class="icon-btn" data-tooltip="Edit Profile">👤</button>
           <button id="themeToggle" class="icon-btn" data-tooltip="Toggle Theme">🌓</button>
@@ -64,14 +63,6 @@
           <div id="completedFavors" class="stat-value">0</div>
           <div class="stat-label">Completed</div>
         </div>
-        <div class="stat-item">
-          <div id="avgValue" class="stat-value">0</div>
-          <div class="stat-label">Avg Value</div>
-        </div>
-        <div class="stat-item">
-          <div id="completionRate" class="stat-value">0%</div>
-          <div class="stat-label">Completion</div>
-        </div>
       </div>
 
       <div class="action-toolbar">
@@ -82,24 +73,15 @@
       </div>
 
       <div class="filters-section">
-        <input type="text" id="searchInput" class="search-input" placeholder="Search favors... (Press / to focus)">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search favors...">
         <div class="filter-tabs">
           <button class="filter-tab active" data-status="all">All</button>
           <button class="filter-tab" data-status="pending">Pending</button>
           <button class="filter-tab" data-status="completed">Completed</button>
         </div>
-        <div class="filter-row">
-          <select id="personFilter" class="person-filter">
-            <option value="">All People</option>
-          </select>
-          <select id="sortFilter" class="sort-filter">
-            <option value="date-desc">Newest First</option>
-            <option value="date-asc">Oldest First</option>
-            <option value="value-desc">Highest Value</option>
-            <option value="value-asc">Lowest Value</option>
-            <option value="due-asc">Due Date (Soonest)</option>
-          </select>
-        </div>
+        <select id="personFilter" class="person-filter">
+          <option value="">All People</option>
+        </select>
       </div>
 
       <div class="section-header">
@@ -243,51 +225,7 @@
     <div class="context-menu-item" data-action="profile">👤 Edit Profile</div>
     <div class="context-menu-item" data-action="settings">⚙️ Settings</div>
     <div class="context-menu-divider"></div>
-    <div class="context-menu-item" data-action="help">⌨️ Keyboard Shortcuts</div>
     <div class="context-menu-item" data-action="about">ℹ️ About</div>
-  </div>
-
-  <!-- Help Modal -->
-  <div id="helpModal" class="modal">
-    <div class="modal-content about-modal">
-      <h3>Keyboard Shortcuts</h3>
-      <div class="about-content">
-        <section>
-          <h4>Navigation</h4>
-          <ul>
-            <li><strong>N or +</strong> - Add new favor</li>
-            <li><strong>/</strong> - Focus search bar</li>
-            <li><strong>Esc</strong> - Close modals/dialogs</li>
-            <li><strong>?</strong> - Show this help dialog</li>
-          </ul>
-        </section>
-
-        <section>
-          <h4>Quick Actions</h4>
-          <ul>
-            <li><strong>L</strong> - Open leaderboard</li>
-            <li><strong>E</strong> - Export data</li>
-            <li><strong>I</strong> - Import data</li>
-            <li><strong>T</strong> - Toggle theme</li>
-            <li><strong>P</strong> - Edit profile</li>
-            <li><strong>S</strong> - Open settings</li>
-          </ul>
-        </section>
-
-        <section>
-          <h4>Tips</h4>
-          <ul>
-            <li>Right-click anywhere for quick access to all features</li>
-            <li>Use keyboard shortcuts for faster navigation</li>
-            <li>Press <strong>/</strong> to quickly search your favors</li>
-            <li>Sort favors by date, value, or due date using the dropdown</li>
-          </ul>
-        </section>
-      </div>
-      <div class="modal-actions">
-        <button id="closeHelpBtn" class="btn-primary">Close</button>
-      </div>
-    </div>
   </div>
 
   <!-- About Modal -->
@@ -308,10 +246,7 @@
             <li><strong>Person-Centric View:</strong> Organize favors by individual with automatic balance calculations</li>
             <li><strong>Rating System:</strong> 5-star rating for completed favors to track satisfaction</li>
             <li><strong>Comments & Notes:</strong> Add detailed comments to any favor for context</li>
-            <li><strong>Advanced Filtering:</strong> Search, filter by person, and sort by multiple criteria</li>
-            <li><strong>Smart Sorting:</strong> Sort favors by date, value, or due date</li>
-            <li><strong>Enhanced Statistics:</strong> Track completion rates, average values, and trends</li>
-            <li><strong>Keyboard Shortcuts:</strong> Fast navigation with customizable keyboard shortcuts</li>
+            <li><strong>Advanced Filtering:</strong> Search, filter by person, and sort by status</li>
             <li><strong>Data Portability:</strong> Export and import data via CSV format</li>
             <li><strong>Customizable Themes:</strong> Dark and light mode support for comfortable viewing</li>
             <li><strong>Smart Reminders:</strong> Due date tracking with notification support</li>
@@ -326,13 +261,11 @@
         <section>
           <h4>How to Use</h4>
           <ul>
-            <li><strong>Add Favors:</strong> Click "+ Add Favor", press <strong>N</strong>, or right-click anywhere</li>
+            <li><strong>Add Favors:</strong> Click "+ Add Favor" or right-click anywhere for quick access</li>
             <li><strong>Track Balance:</strong> See at-a-glance who owes whom on the dashboard</li>
-            <li><strong>Sort & Filter:</strong> Use the dropdown to sort by date, value, or due date</li>
-            <li><strong>Quick Search:</strong> Press <strong>/</strong> to jump to search and find favors instantly</li>
             <li><strong>Mark Complete:</strong> Update favor status when obligations are fulfilled</li>
             <li><strong>Rate & Comment:</strong> Provide feedback on completed favors</li>
-            <li><strong>Keyboard Shortcuts:</strong> Press <strong>?</strong> to view all available shortcuts</li>
+            <li><strong>Filter & Search:</strong> Find specific favors quickly using the filter bar</li>
             <li><strong>Export Data:</strong> Backup your data regularly via CSV export</li>
             <li><strong>View Settings:</strong> Access data management and error logs via context menu</li>
           </ul>
