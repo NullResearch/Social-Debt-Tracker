@@ -31,7 +31,7 @@
 <body>
   
       <h1>Asset not found</h1>
-      <p>The asset <strong>'components.css'</strong> cannot be found, or you don't have permission to view it.</p>
+      <p>The asset <strong>'dashboard-manager.js'</strong> cannot be found, or you don't have permission to view it.</p>
     
 </body>
 </html>
